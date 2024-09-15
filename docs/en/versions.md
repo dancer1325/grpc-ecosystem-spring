@@ -2,7 +2,10 @@
 
 [<- Back to Index](index.md)
 
-This page shows the additional information about our Versioning Policy and lifecycles.
+* goal
+  * Versioning 
+    * Policy
+    * lifecycles
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -33,15 +36,9 @@ If you need a patched version, please open an issue.
 
 ## Version Table
 
-This table shows the spring and gRPC version that this library ships.
-In most cases you can upgrade to newer versions, but especially gRPC changes its API more frequently.
-Please report any issues to our [repo](https://github.com/grpc-ecosystem/grpc-spring/issues).
-
-> **Note**
->
-> If you are using the non-shaded netty (and related libraries) please stick **exactly** to the version that is
-> [documented](https://github.com/grpc/grpc-java/blob/master/SECURITY.md#netty) by gRPC.
-> (grpc-netty-shaded avoids these issues by keeping these versions in sync.)
+* spring & gRPC version
+  * gRPC API version more frequently
+  * if you are using the non-shaded netty + related libraries -> stick **exactly** to the version [documented](https://github.com/grpc/grpc-java/blob/master/SECURITY.md#netty) by gRPC
 
 ### Version 3.x
 
@@ -54,9 +51,9 @@ Current version.
 
 (\* Future versions)
 
-> The listed dependency versions here are only used during the build process and may be replaced.
-> grpc-spring-boot-starter is usually also compatible with newer or older versions than the listed ones.
-> If you encounter an incompatibility with a newer version, please let us know so we can update this project!
+* listed dependency versions -- are ONLY used -- | build process
+* `grpc-spring-boot-starter` -- is usually -- backward or further ward compatible
+
 
 ### Version 2.x
 
@@ -98,18 +95,16 @@ End of life - No more updates planned.
 
 ### Upgrading Dependencies
 
-If you upgrade any of the versions we strongly recommend doing so using a bom:
-
-- [spring-boot](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent)
-- [grpc-java](https://mvnrepository.com/artifact/io.grpc/grpc-bom)
+* if you upgrade ANY of the versions -> recommended doing -- via a -- bom
+  * [spring-boot](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent)
+  * [grpc-java](https://mvnrepository.com/artifact/io.grpc/grpc-bom)
 
 ### Release Notes
 
-Refer to the release notes for more information on the changes for each version:
-
-- [grpc-spring-boot-starter](https://github.com/grpc-ecosystem/grpc-spring/releases)
-- [spring-boot](https://github.com/spring-projects/spring-boot/releases)
-- [grpc-java](https://github.com/grpc/grpc-java/releases)
+* check release notes on the changes / version
+  * [grpc-spring-boot-starter](https://github.com/grpc-ecosystem/grpc-spring/releases)
+  * [spring-boot](https://github.com/spring-projects/spring-boot/releases)
+  * [grpc-java](https://github.com/grpc/grpc-java/releases)
 
 ---
 
