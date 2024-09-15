@@ -2,12 +2,9 @@
 
 [<- Back to Index](index.md)
 
-This page focuses on the integration with
-[Spring-Boot-Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html).
-This is an optional feature. Supported features:
-
-- Client + server metrics
-- Server `InfoContributor`
+* integration with [Spring-Boot-Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html) / supported features
+  * Client + server metrics
+  * Server `InfoContributor`
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -22,49 +19,61 @@ This is an optional feature. Supported features:
 
 ## Dependencies
 
-The metric collection and other actuator features are optional, they will be enabled automatically if a `MeterRegistry`
-is in the application context.
+* metric collection & other actuator features 👁️ are optional 👁️
+* if a `MeterRegistry` is | application context -> enabled automatically
+* way to configure
+  * via Maven
 
-You can achieve this simply by adding the following dependency to Maven:
+    ````xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    
+    <!-- if you want to view the metrics | resource / interpreted by browser 
+    spring-boot-web runs | port / != grpc server port -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    ````
 
-````xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-actuator</artifactId>
-</dependency>
-````
+  * via Gradle
 
-or to Gradle:
+    ````groovy
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    
+    //if you want to view the metrics | resource / interpreted by browser
+    //spring-boot-web runs | port / != grpc server port
+    compile("org.springframework.boot:spring-boot-starter-web")
+    ````
 
-````groovy
-compile("org.springframework.boot:spring-boot-starter-actuator")
-````
-
-> **Note:** In most cases you will also need the `spring-boot-web` dependency in order to actually view the metrics.
-> Please note that spring-boot-web runs on a different port than the grpc server (usually `8080`). If you don't want to
-> add a web-server you can still access the metrics via JMX (if enabled).
+* ways to view metrics
+  * JMX
+  * browser -- through -- actuator
 
 ## Metrics
 
-Once the dependencies are added grpc-spring-boot-starter will automatically configure `ClientInterceptor`s/`ServerInterceptor`s that will gather the metrics.
+* grpc-spring-boot-starter will automatically configure
+  * `ClientInterceptor`s / `ServerInterceptor`s will gather the metrics
 
 ### Counter
 
-- `grpc.client.requests.sent`: The total number of requests sent.
-- `grpc.client.responses.received`: The total number of responses received.
-- `grpc.server.requests.received`: The total number of requests received.
-- `grpc.server.responses.sent`: The total number of responses sent.
+- `grpc.client.requests.sent`: total # of requests sent
+- `grpc.client.responses.received`: total # of responses received
+- `grpc.server.requests.received`: total # of requests received
+- `grpc.server.responses.sent`: total # of responses sent
 
 **Tags:**
 
-- `service`: The requested grpc service name (using protobuf name)
-- `method`: The requested grpc method name (using protobuf name)
-- `methodType`: The type of the requested grpc method.
+- `service`: requested grpc service name -- via -- protobuf name
+- `method`: requested grpc method name -- via -- protobuf name
+- `methodType`: type of the requested grpc method
 
 ### Timer
 
-- `grpc.client.processing.duration`: The total time taken for the client to complete the call, including network delay.
-- `grpc.server.processing.duration`: The total time taken for the server to complete the call.
+- `grpc.client.processing.duration`: total time / taken for the client -- to -- complete the call (including network delay)
+- `grpc.server.processing.duration`: total time / taken for the server -- to -- complete the call
 
 **Tags:**
 
@@ -75,10 +84,12 @@ Once the dependencies are added grpc-spring-boot-starter will automatically conf
 
 ## gRPC A66 Metrics
 
-In addition to above listed metrics, once the dependencies are added grpc-spring-boot-starter will automatically configure to gather [gRPC A66](https://github.com/grpc/proposal/blob/master/A66-otel-stats.md) metrics.
+* additional to above listed metrics
+* grpc-spring-boot-starter will automatically configure / gather [gRPC A66](https://github.com/grpc/proposal/blob/master/A66-otel-stats.md) metrics
 
 ### Client Metrics
 
+* TODO:
 ### Counter
 
 - `grpc.client.attempt.started`: The total number of RPC attempts started, including those that have not completed.
