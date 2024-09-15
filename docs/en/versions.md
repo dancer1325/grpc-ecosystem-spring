@@ -19,20 +19,22 @@
 
 ## Versioning Policy
 
-The major version of this project defines which spring-boot version we are compatible with.
-
-- 1.x.x versions are EOL and won't receive any updates
-- 2.x.x is the current version and will be updated if there are spring-boot or gRPC releases.
-- 3.x.x is the current version and will be updated if there are spring-boot or gRPC releases.
-
-The minor version defines the feature version of this project. Every time we bump spring-boot's or gRPC's version,
-we will also increment our feature version. The same applies if we add/change major features.
-In most cases you will not get any incompatibilities by upgrading, but since gRPC evolves just like its API,
-this cannot be ruled out. We try to minimize such influences, but can't rule them out.
-If you don't use advanced features, you won't usually notice.
-
-We usually don't release patch versions, but include these patches in the next release.
-If you need a patched version, please open an issue.
+* major version of this project == spring-boot major version / compatible with
+  * 1.x.x
+    * versions are EOL and won't receive any updates
+  * 2.x.x
+    * current version
+    * if there are spring-boot or gRPC releases -> will be updated
+  * 3.x.x
+    * current version
+    * if there are spring-boot or gRPC releases -> will be updated
+* minor version == feature version
+  * if we bump spring-boot's or gRPC's version -> increment our feature version
+  * if we add/change major features -> increment our feature version
+  * you will NOT get any incompatibilities by upgrading
+    * except, you use advanced features
+* patch versions
+  * normally, NOT release, but include these patches | next release
 
 ## Version Table
 
@@ -53,7 +55,6 @@ Current version.
 
 * listed dependency versions -- are ONLY used -- | build process
 * `grpc-spring-boot-starter` -- is usually -- backward or further ward compatible
-
 
 ### Version 2.x
 
