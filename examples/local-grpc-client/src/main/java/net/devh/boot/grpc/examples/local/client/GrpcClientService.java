@@ -31,6 +31,7 @@ import net.devh.boot.grpc.examples.lib.SimpleGrpc.SimpleBlockingStub;
 @Service
 public class GrpcClientService {
 
+    // annotation set | grpc client stub's field        & NOT used + @Autowired or @Inject
     @GrpcClient("local-grpc-server")
     private SimpleBlockingStub simpleStub;
 
