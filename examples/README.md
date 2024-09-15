@@ -2,19 +2,13 @@
 
 ## Local Setup
 
-1. Try the local-grpc-server example first run:
-
-    ````sh
-    ./gradlew :example:local-grpc-server:bootRun
-    ````
-
-2. In a different terminal window run:
-
-    ````sh
-    ./gradlew :example:local-grpc-client:bootRun
-    ````
-
-3. Visit http://localhost:8080/ to see the result.
+* == run "local-grpc-server" & "local-grpc-client"
+* `./gradlew :example:local-grpc-server:bootRun`
+  * run "local-grpc-server"
+* `./gradlew :example:local-grpc-client:bootRun`
+  * | different terminal
+  * run "local-grpc-client"
+* visit http://localhost:8080/
 
 ## Cloud Discovery Setup
 
