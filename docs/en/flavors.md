@@ -1,7 +1,7 @@
 # gRPC-Java Flavors
 
-Aside from [grpc-java](https://github.com/grpc/grpc-java/), this library also supports other java based
-grpc-implementations.
+* supported java based grpc-implementations
+  * additional dependencies / grpc java flavor
 
 | Flavor | Server | Client |
 | ---  | --- | --- |
@@ -16,31 +16,20 @@ grpc-implementations.
 *✔️ = Build-in support* |
 *✏️ = Requires customization*
 
-> **Note:** You might require additional dependencies depending on your grpc java flavor.
-
 ## Server side
 
-The server side should work without any additional configuration. Just annotatate your implementation of the generated
-`BindableService` class with `@GrpcService` and it will be picked up automatically.
-
-See also:
-
-- [Server - Getting Started](server/getting-started.md)
+* NO additional configuration
+* add `@GrpcService` | your implementation of the generated `BindableService`
+* [Server - Getting Started](server/getting-started.md)
 
 ## Client side
 
-The client side requires a `StubFactory` for each type of stub.
-
-This library ships the following stub factory beans by default:
-
-- gRPC-Java
-  - `AbstractAsyncStub` -> `AsyncStubFactory`
-  - `AbstractBlockingStub` -> `BlockingStubFactory`
-  - `AbstractFutureStub` -> `FutureStubFactory`
-
-Please report missing stub types so that we can add support for them.
-
-See also:
-
-- [Client - Getting Started](client/getting-started.md)
-- [Client - Configuration - StubFactory](client/configuration.md#stubfactory)
+* requirements
+  * `StubFactory` / type of stub
+* built-in stub factory beans | this library
+  * gRPC-Java
+    * `AbstractAsyncStub` -> `AsyncStubFactory`
+    * `AbstractBlockingStub` -> `BlockingStubFactory`
+    * `AbstractFutureStub` -> `FutureStubFactory`
+* [Client - Getting Started](client/getting-started.md)
+* [Client - Configuration - StubFactory](client/configuration.md#stubfactory)
