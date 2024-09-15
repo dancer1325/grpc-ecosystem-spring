@@ -1,8 +1,6 @@
 # Survey - gRPC/Spring
 
-Dear gRPC/Spring users, in order to enhance the user experience of
-grpc-ecosystem/grpc-spring, we have developed [this survey](https://docs.google.com/forms/d/e/1FAIpQLSfHgvh_Z0_wwX7JQLERanJ-AAXjiKh23_kSI3Rl5mnKVQ8Bpw/viewform?resourcekey=0-mEilI6lFvIfVXiUniEyCog) as a means of
-establishing a direct line of communication. Your feedback is highly appreciated.
+* [survey](https://docs.google.com/forms/d/e/1FAIpQLSfHgvh_Z0_wwX7JQLERanJ-AAXjiKh23_kSI3Rl5mnKVQ8Bpw/viewform?resourcekey=0-mEilI6lFvIfVXiUniEyCog) to get feedback
 
 # gRPC Spring Boot Starter
 
@@ -21,90 +19,87 @@ README: [English](README.md) | [中文](README-zh-CN.md)
 
 ## Features
 
-* Automatically configures and runs the gRPC server with your `@GrpcService` implementations
-
-* Automatically creates and manages your grpc channels and stubs with `@GrpcClient`
-
-* Supports other grpc-java flavors (e.g.
-  [Reactive gRPC (RxJava)](https://github.com/salesforce/reactive-grpc/tree/master/rx-java),
-  [grpc-kotlin](https://github.com/grpc/grpc-kotlin), ...)
-  * Server-side: Should work for all grpc-java flavors (`io.grpc.BindableService` based)
-  * Client-side: Requires custom `StubFactory`s\
-    Currently build-in support:
-    * grpc-java
-    * (Please report missing ones, so we can add support for them)
-
-* Supports [Spring-Security](https://github.com/spring-projects/spring-security)
-
-* Supports [Spring Cloud](https://spring.io/projects/spring-cloud)
-  * Server-side: Adds grpc-port information to the service registration details\
-    Currently natively supported:
-    * [Consul](https://github.com/spring-cloud/spring-cloud-consul)
-    * [Eureka](https://github.com/spring-cloud/spring-cloud-netflix)
-    * [Nacos](https://github.com/spring-cloud-incubator/spring-cloud-alibaba)
-    * (Please report missing ones, so we can add support for them)
-  * Client-side: Reads the service's target addresses from spring's `DiscoveryClient` (all flavors)
-
-* Supports [Spring Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) as distributed tracing solution\
-  (If [brave-instrumentation-grpc](https://mvnrepository.com/artifact/io.zipkin.brave/brave-instrumentation-grpc) is present)
-
-* Supports global and custom gRPC server/client interceptors
-
-* Automatic metric support ([micrometer](https://micrometer.io/)/[actuator](https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-actuator) based)
-
+* Automatically
+  * configures and runs the gRPC server -- with your -- `@GrpcService` implementations
+  * creates and manages your grpc channels and stubs with `@GrpcClient`
+* Supports
+  * other grpc-java flavors
+    * [Reactive gRPC (RxJava)](https://github.com/salesforce/reactive-grpc/tree/master/rx-java)
+    * [grpc-kotlin](https://github.com/grpc/grpc-kotlin), ...)
+    * Server-side work for ALL grpc-java flavors 
+      * `io.grpc.BindableService` based
+    * Client-side requires custom `StubFactory`s / built-in support
+      * grpc-java
+      * others ❓
+  * [Spring-Security](https://github.com/spring-projects/spring-security)
+  * [Spring Cloud](https://spring.io/projects/spring-cloud)
+    * Server-side: Adds grpc-port information to the service registration details\
+      Currently natively supported:
+      * [Consul](https://github.com/spring-cloud/spring-cloud-consul)
+      * [Eureka](https://github.com/spring-cloud/spring-cloud-netflix)
+      * [Nacos](https://github.com/spring-cloud-incubator/spring-cloud-alibaba)
+      * (Please report missing ones, so we can add support for them)
+    * Client-side: Reads the service's target addresses from spring's `DiscoveryClient` (all flavors)
+  * [Spring Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) -- as -- distributed tracing solution
+    * requirements
+      * [brave-instrumentation-grpc](https://mvnrepository.com/artifact/io.zipkin.brave/brave-instrumentation-grpc) present
+  * global and custom gRPC server/client interceptors
+* Automatic metric support -- [micrometer](https://micrometer.io/)/[actuator](https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-actuator) based
 * Also works with (non-shaded) grpc-netty
 
 ## Versions
 
-The latest version is `3.1.0.RELEASE` it was compiled with spring-boot `3.2.4` and spring-cloud `2023.0.0`
-but it is also compatible with a large variety of other versions.
-An overview of all versions and their respective library versions can be found in our [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/en/versions.html).
-
-**Note:** This project can also be used without Spring-Boot, however that requires some manual bean configuration.
+* latest version `3.1.0.RELEASE`
+  * compiled with -- spring-boot `3.2.4` & spring-cloud `2023.0.0`
+  * ALSO compatible with a large variety of other versions
+* overview of all versions & their respective library versions 
+  * check [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/en/versions.html)
+* ⚠️This project can also be used WITHOUT Spring-Boot ⚠️
+  * -> manual bean configuration
 
 ## Usage
 
 ### gRPC Server + Client
 
-To add a dependency using Maven, use the following:
+* via Maven
 
-````xml
-<dependency>
-  <groupId>net.devh</groupId>
-  <artifactId>grpc-spring-boot-starter</artifactId>
-  <version>3.1.0.RELEASE</version>
-</dependency>
-````
+    ````xml
+    <dependency>
+      <groupId>net.devh</groupId>
+      <artifactId>grpc-spring-boot-starter</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    ````
 
-To add a dependency using Gradle:
+* via Gradle
 
-````gradle
-dependencies {
-  implementation 'net.devh:grpc-spring-boot-starter:3.1.0.RELEASE'
-}
-````
+    ````gradle
+    dependencies {
+      implementation 'net.devh:grpc-spring-boot-starter:3.1.0.RELEASE'
+    }
+    ````
 
 ### gRPC Server
 
-To add a dependency using Maven, use the following:
+* via Maven
 
-````xml
-<dependency>
-  <groupId>net.devh</groupId>
-  <artifactId>grpc-server-spring-boot-starter</artifactId>
-  <version>3.1.0.RELEASE</version>
-</dependency>
-````
+    ````xml
+    <dependency>
+      <groupId>net.devh</groupId>
+      <artifactId>grpc-server-spring-boot-starter</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    ````
 
-To add a dependency using Gradle:
+* via Gradle
 
-````gradle
-dependencies {
-  implementation 'net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE'
-}
-````
+    ````gradle
+    dependencies {
+      implementation 'net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE'
+    }
+    ````
 
-Annotate your server interface implementation(s) with ``@GrpcService``
+* ``@GrpcService`` | server interface implementation(s) 
 
 ````java
 @GrpcService
@@ -120,133 +115,134 @@ public class GrpcServerService extends GreeterGrpc.GreeterImplBase {
 }
 ````
 
-By default, the grpc server will listen to port `9090`. These and other
-[settings](grpc-server-spring-boot-starter/src/main/java/net/devh/boot/grpc/server/config/GrpcServerProperties.java)
-can be changed via Spring's property mechanism. The server uses the `grpc.server.` prefix.
-
-Refer to our [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/) for more details.
+* [settings](grpc-server-spring-boot-starter/src/main/java/net/devh/boot/grpc/server/config/GrpcServerProperties.java)
+  * -- can be changed via -- Spring's property mechanism 
+  * `grpc.server.*`
+    * grpc Server settings
+    * default port `9090`
+* [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/) 
 
 ### gRPC Client
 
-To add a dependency using Maven, use the following:
+* via Maven
 
-````xml
-<dependency>
-  <groupId>net.devh</groupId>
-  <artifactId>grpc-client-spring-boot-starter</artifactId>
-  <version>3.1.0.RELEASE</version>
-</dependency>
-````
+    ````xml
+    <dependency>
+      <groupId>net.devh</groupId>
+      <artifactId>grpc-client-spring-boot-starter</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    ````
 
-To add a dependency using Gradle:
+* via Gradle
 
-````gradle
-dependencies {
-  compile 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
-}
-````
+    ````gradle
+    dependencies {
+      compile 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
+    }
+    ````
 
-Annotate a field of your grpc client stub with `@GrpcClient(serverName)`
-
-* Do not use in conjunction with `@Autowired` or `@Inject`
+* `@GrpcClient(serverName)` | grpc client stub's field
+  * ⚠️NOT used + `@Autowired` or `@Inject` ⚠️
 
   ````java
   @GrpcClient("gRPC server name")
   private GreeterGrpc.GreeterBlockingStub greeterStub;
   ````
 
-**Note:** You can use the same grpc server name for multiple channels and also different stubs (even with different
-interceptors).
+* SAME grpc server name / SEVERAL channels & different stubs (even with different
+interceptors)
+* ways to send queries | your server
 
-Then you can send queries to your server just like this:
+    ````java
+    HelloReply response = stub.sayHello(HelloRequest.newBuilder().setName(name).build());
+    ````
 
-````java
-HelloReply response = stub.sayHello(HelloRequest.newBuilder().setName(name).build());
-````
-
-It is possible to configure the target address for each client individually.
-However in some cases, you can just rely on the default configuration.
-You can customize the default url mapping via `NameResolver.Factory` beans. If you don't configure that bean,
-then the default uri will be guessed using the default scheme and the name (e.g.: `dns:/<name>`):
-
-These and other
-[settings](grpc-client-spring-boot-starter/src/main/java/net/devh/boot/grpc/client/config/GrpcChannelProperties.java)
-can be changed via Spring's property mechanism. The clients use the `grpc.client.(serverName).` prefix.
-
-Refer to our [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/) for more details.
+* [settings](grpc-client-spring-boot-starter/src/main/java/net/devh/boot/grpc/client/config/GrpcChannelProperties.java)
+  * can be changed -- via -- Spring's property mechanism
+  * `grpc.client.(serverName).` prefix
+  * such as
+    * target address / client individually
+    * default url mapping -- via -- `NameResolver.Factory` beans
+      * if you don't configure that bean -> default uri == default scheme + default name
+        * _Example:_ `dns:/<name>`
+* [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/)
 
 ## Running with (non-shaded) grpc-netty
 
-This library supports both `grpc-netty` and `grpc-netty-shaded`.
-The later one might prevent conflicts with incompatible grpc-versions or conflicts between libraries that require different versions of netty.
+* library supports 
+  * `grpc-netty` 
+  * `grpc-netty-shaded`
+    * -- might prevent conflicts --
+      * with incompatible grpc-versions
+      * between libraries / require different versions of netty
+    * if it is present | classpath -> 👁️library will always favor it over the non-shaded grpc-netty one 👁️	
 
-**Note:** If the shaded netty is present on the classpath, then this library will always favor it over the non-shaded grpc-netty one.
+* via Maven
 
-You can use it with Maven like this:
+    ````xml
+    <dependency>
+        <groupId>io.grpc</groupId>
+        <artifactId>grpc-netty</artifactId>
+        <version>${grpcVersion}</version>
+    </dependency>
+    
+    <!-- For both -->
+    <dependency>
+        <groupId>net.devh</groupId>
+        <artifactId>grpc-spring-boot-starter</artifactId>
+        <version>...</version>
+        <exclusions>
+            <exclusion>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <!-- For the server (only) -->
+    <dependency>
+        <groupId>net.devh</groupId>
+        <artifactId>grpc-server-spring-boot-starter</artifactId>
+        <version>...</version>
+        <exclusions>
+            <exclusion>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <!-- For the client (only) -->
+    <dependency>
+        <groupId>net.devh</groupId>
+        <artifactId>grpc-client-spring-boot-starter</artifactId>
+        <version>...</version>
+        <exclusions>
+            <exclusion>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    ````
 
-````xml
-<dependency>
-    <groupId>io.grpc</groupId>
-    <artifactId>grpc-netty</artifactId>
-    <version>${grpcVersion}</version>
-</dependency>
+* via Gradle
 
-<!-- For both -->
-<dependency>
-    <groupId>net.devh</groupId>
-    <artifactId>grpc-spring-boot-starter</artifactId>
-    <version>...</version>
-    <exclusions>
-        <exclusion>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-<!-- For the server (only) -->
-<dependency>
-    <groupId>net.devh</groupId>
-    <artifactId>grpc-server-spring-boot-starter</artifactId>
-    <version>...</version>
-    <exclusions>
-        <exclusion>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-<!-- For the client (only) -->
-<dependency>
-    <groupId>net.devh</groupId>
-    <artifactId>grpc-client-spring-boot-starter</artifactId>
-    <version>...</version>
-    <exclusions>
-        <exclusion>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-````
-
-and like this when using Gradle:
-
-````groovy
-implementation "io.grpc:grpc-netty:${grpcVersion}"
-
-implementation 'net.devh:grpc-spring-boot-starter:...' exclude group: 'io.grpc', module: 'grpc-netty-shaded' // For both
-implementation 'net.devh:grpc-client-spring-boot-starter:...' exclude group: 'io.grpc', module: 'grpc-netty-shaded' // For the client (only)
-implementation 'net.devh:grpc-server-spring-boot-starter:...' exclude group: 'io.grpc', module: 'grpc-netty-shaded' // For the server (only)
-````
+    ````groovy
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    
+    implementation 'net.devh:grpc-spring-boot-starter:...' exclude group: 'io.grpc', module: 'grpc-netty-shaded' // For both
+    implementation 'net.devh:grpc-client-spring-boot-starter:...' exclude group: 'io.grpc', module: 'grpc-netty-shaded' // For the client (only)
+    implementation 'net.devh:grpc-server-spring-boot-starter:...' exclude group: 'io.grpc', module: 'grpc-netty-shaded' // For the server (only)
+    ````
 
 ## Example-Projects
 
-Read more about our example projects [here](examples).
+* [examples](examples)
 
 ## Troubleshooting
 
-Refer to our [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/en/trouble-shooting) for help.
+* [documentation](https://yidongnan.github.io/grpc-spring-boot-starter/en/trouble-shooting) 
 
 ## Contributing
 
-Contributions are always welcomed! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+* [CONTRIBUTING.md](CONTRIBUTING.md) 
