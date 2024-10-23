@@ -2,7 +2,8 @@
 
 [<- Back to Index](../index.md)
 
-This section describes the steps necessary to convert your application into a grpc-spring-boot-starter one.
+* goal
+  * steps to convert your application -> grpc-spring-boot-starter
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -26,18 +27,17 @@ This section describes the steps necessary to convert your application into a gr
 
 ## Project Setup
 
-Before we start adding the dependencies lets start with some of our recommendation for your project setup.
+![project setup](/docs/assets/images/server-project-setup.svg)
 
-![project setup](/grpc-spring/assets/images/server-project-setup.svg)
-
-We recommend splitting your project into 2-3 separate modules.
-
-1. **The interface project**
-  Contains the raw protobuf files and generates the java model and service classes. You probably share this part.
-2. **The server project**
-  Contains the actual implementation of your project and uses the interface project as dependency.
-3. **The client projects** (optional and possibly many)
-  Any client projects that use the pre-generated stubs to access the server.
+* recommendation
+  * ⭐split your project -- into -- 2-3 separate modules ⭐	
+    * **interface project**
+      * == raw protobuf files & generates the java model and service classes
+    * **server project**
+      * == actual implementation of your project / interface project -- is used as -- dependency
+    * **client projects**
+      * optional & >= 1 can exist
+      * access -- via the pre-generated stubs, to the -- server
 
 ## Dependencies
 
@@ -223,96 +223,91 @@ buildscript {
 
 ### Client-Project
 
-See the [client getting started page](../client/getting-started.md#client-project)
+* check [client getting started page](../client/getting-started.md#client-project)
 
 ## Creating the gRPC-Service Definitions
 
-Place your protobuf definitions / `.proto` files in `src/main/proto`.
-For writing protobuf files please refer to the official
-[protobuf docs](https://developers.google.com/protocol-buffers/docs/proto3).
+* place your `.proto` files | `src/main/proto`
+  * check [protobuf docs](https://developers.google.com/protocol-buffers/docs/proto3)
+  * _Example:_ [grpc-lib](../../../examples/grpc-lib)
 
-Your `.proto` files will look similar to the example below:
-
-````proto
-syntax = "proto3";
-
-package net.devh.boot.grpc.example;
-
-option java_multiple_files = true;
-option java_package = "net.devh.boot.grpc.examples.lib";
-option java_outer_classname = "HelloWorldProto";
-
-// The greeting service definition.
-service MyService {
-    // Sends a greeting
-    rpc SayHello (HelloRequest) returns (HelloReply) {
+    ````proto
+    syntax = "proto3";
+    
+    package net.devh.boot.grpc.example;
+    
+    option java_multiple_files = true;
+    option java_package = "net.devh.boot.grpc.examples.lib";
+    option java_outer_classname = "HelloWorldProto";
+    
+    // The greeting service definition.
+    service MyService {
+        // Sends a greeting
+        rpc SayHello (HelloRequest) returns (HelloReply) {
+        }
     }
-}
+    
+    // The request message containing the user's name.
+    message HelloRequest {
+        string name = 1;
+    }
+    
+    // The response message containing the greetings
+    message HelloReply {
+        string message = 1;
+    }
+    ````
 
-// The request message containing the user's name.
-message HelloRequest {
-    string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-    string message = 1;
-}
-````
-
-The configured maven/gradle protobuf plugins will then use invoke the
-[`protoc`](https://mvnrepository.com/artifact/com.google.protobuf/protoc) compiler with the
-[`protoc-gen-grpc-java`](https://mvnrepository.com/artifact/io.grpc/protoc-gen-grpc-java) plugin and generate the data
-classes, grpc service `ImplBase`s and `Stub`s. Please note that other plugins such as
-[reactive-grpc](https://github.com/salesforce/reactive-grpc) might generate additional/alternative classes that you have
-to use instead. However, they can be used in a similar fashion.
-
-- The `ImplBase` classes contain the base logic that map the dummy implementation to the grpc service methods.
-  More about this in the [Implementing the service](#implementing-the-service) topic.
-- The `Stub` classes are complete client implementations.
-  More about this on the [Getting the client started](../client/getting-started.md) page.
+* maven/gradle protobuf plugins + [`protoc`](https://mvnrepository.com/artifact/com.google.protobuf/protoc) + [`protoc-gen-grpc-java`](https://mvnrepository.com/artifact/io.grpc/protoc-gen-grpc-java) plugin or others ([reactive-grpc](https://github.com/salesforce/reactive-grpc)) -> generate the
+  * data classes,
+  * grpc service `ImplBase`s and `Stub`s
+    * `ImplBase` classes == base logic / dummy implementation -- is mapped to the -- grpc service methods
+      * check [Implementing the service](#implementing-the-service)
+    * `Stub` classes == complete client implementations
+      * check [Getting the client started](../client/getting-started.md) 
+  * other/additional classes -- depending on -- other plugins used
 
 ## Implementing the Service
 
-The `protoc-gen-grpc-java` plugin generates a class for each of your grpc services.
-For example: `MyServiceGrpc` where `MyService` is the name of the grpc service in the proto file. This class
-contains both the client stubs and the server `ImplBase` that you will need to extend.
+* `protoc-gen-grpc-java` plugin
+  * generates a class / used by grpc services
+    * _Example:_ `MyServiceGrpc` & `MyService` == name of the grpc service | ".proto"
+    * == client stubs + client server `ImplBase` / you will need to extend
+* steps
+  1. `MyServiceImpl` -- must extends -- `MyServiceGrpc.MyServiceImplBase`
+  2. `@GrpcService` | `MyServiceImpl` class
+  3. `MyServiceImpl` | application context,
+     1. create `@Bean` | `@Configuration` classes or
+     2. placing it | spring's automatically detected paths ( -- _Example:_ same or a sub package of your `Main` class --)
+  4. implement the grpc service methods
 
-After that you have only four tasks to do:
+* _Example:_ grpc service class
 
-1. Make sure that your `MyServiceImpl` extends `MyServiceGrpc.MyServiceImplBase`
-2. Add the `@GrpcService` annotation to your `MyServiceImpl` class
-3. Make sure that the `MyServiceImpl` is added to your application context,
-   - either by creating `@Bean` definition in one of your `@Configuration` classes
-   - or placing it in spring's automatically detected paths (e.g. in the same or a sub package of your `Main` class)
-4. Actually implement the grpc service methods.
-
-Your grpc service class will then look somewhat similar to the example below:
-
-````java
-import example.HelloReply;
-import example.HelloRequest;
-import example.MyServiceGrpc;
-
-import io.grpc.stub.StreamObserver;
-
-import net.devh.boot.grpc.server.service.GrpcService;
-
-@GrpcService
-public class MyServiceImpl extends MyServiceGrpc.MyServiceImplBase {
-
-    @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-        HelloReply reply = HelloReply.newBuilder()
-                .setMessage("Hello ==> " + request.getName())
-                .build();
-        responseObserver.onNext(reply);
-        responseObserver.onCompleted();
+    ````java
+    import example.HelloReply;
+    import example.HelloRequest;
+    import example.MyServiceGrpc;
+    
+    import io.grpc.stub.StreamObserver;
+    
+    import net.devh.boot.grpc.server.service.GrpcService;
+    
+    @GrpcService
+    public class MyServiceImpl extends MyServiceGrpc.MyServiceImplBase {
+    
+        @Override
+        public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+            HelloReply reply = HelloReply.newBuilder()
+                    .setMessage("Hello ==> " + request.getName())
+                    .build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        }
+    
     }
+    ````
 
-}
-````
-
+* TODO:
 > **Note**: Theoretically it is not necessary to extend the `ImplBase` and instead implement `BindableService` yourself.
 > However, doing so might result in bypassing spring security's checks.
 
